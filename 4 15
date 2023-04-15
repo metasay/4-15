@@ -1,0 +1,365 @@
+# import sys
+#
+# input = sys.stdin.readline
+#
+# guitar = []
+# for _ in range(int(input())):
+#     s = input().rstrip()
+#
+#     summ = 0
+#     for i in s:
+#         if i.isdigit():
+#             summ += int(i)
+#     guitar.append((s, summ))
+#
+# guitar.sort(key=lambda x: (len(x[0]), x[1], x[0]))
+#
+# for i in guitar:
+#     print(i[0])
+# n = int(input())
+# s = [0 for i in range(301)]
+# dp = [0 for i in range(301)]
+# for i in range(n):
+#     s[i] = int(input())
+# dp[0] = s[0]
+# dp[1] = s[0] + s[1]
+# dp[2] = max(s[1] + s[2], s[0] + s[2])
+# for i in range(3, n):
+#     dp[i] = max(dp[i - 3] + s[i - 1] + s[i], dp[i - 2] + s[i])
+# print(dp[n - 1])
+# import sys
+#
+#
+# def solution():
+#     sys_input = sys.stdin.readline
+#
+#     n = int(sys_input())
+#
+#     begin, end = 0, n
+#
+#     dots = [list(map(int, sys_input().split())) for _ in range(3)]
+#     for i in range(3):
+#         dots[i].sort()
+#
+#         if float(dots[i][0]) == float(dots[i][1]):
+#             continue
+#
+#         mid = sum(dots[i]) / 2
+#         if end - mid < mid - begin:
+#             end = 2 * mid - begin
+#         begin = mid
+#
+#         if i < 1:
+#             if dots[1][0] < mid:
+#                 dots[1][0] = 2 * mid - dots[1][0]
+#             if dots[1][1] < mid:
+#                 dots[1][1] = 2 * mid - dots[1][1]
+#         if i < 2:
+#             if dots[2][0] < mid:
+#                 dots[2][0] = 2 * mid - dots[2][0]
+#             if dots[2][1] < mid:
+#                 dots[2][1] = 2 * mid - dots[2][1]
+#     print('%.1f' % (end - begin))
+#
+#
+# solution()
+# import sys
+#
+# ssr = sys.stdin.readline
+#
+# Q = int(ssr())
+# arr = [[]]
+# graph = [[] for _ in range(101)]
+#
+# for _ in range(Q):
+#     s, t1, t2 = map(int, ssr().split())
+#     if s == 1:
+#         j = len(arr)
+#         arr.append([t1, t2])
+#         for i in range(1, len(arr)):
+#             if (arr[i][0] < t1 and t1 < arr[i][1]) or (arr[i][0] < t2 and t2 < arr[i][1]):
+#                 graph[j].append(i)
+#             if (t1 < arr[i][0] and arr[i][0] < t2) or (t1 < arr[i][1] and arr[i][1] < t2):
+#                 graph[i].append(j)
+#     else:
+#         visited = [False for _ in range(101)]
+#         stack = [t1]
+#         visited[t1] = True
+#         find = False
+#         while stack:
+#             t = stack.pop()
+#             if t == t2:
+#                 find = True
+#                 break
+#             for cn in graph[t]:
+#                 if not visited[cn]:
+#                     visited[cn] = True
+#                     stack.append(cn)
+#
+#         if find:
+#             print(1)
+#         else:
+#             print(0)
+# n, k = map(int, input().split())
+# placement = list(input())
+# hambuger = 0
+# for idx in range(n):
+#     if placement[idx] == 'P':
+#         for i in range(max(idx-k, 0), min(idx+k+1, n)):
+#             if placement[i] == 'H':
+#                 placement[i] = 0
+#                 hambuger += 1
+#                 break
+# print(hambuger)
+# import sys
+#
+# input = sys.stdin.readline
+#
+#
+# def check(arr):
+#     n = len(arr)
+#     answer = 1
+#
+#     for i in range(n):
+#         cnt = 1
+#         for j in range(1, n):
+#             if arr[i][j] == arr[i][j - 1]:
+#                 cnt += 1
+#             else:
+#                 cnt = 1
+#
+#             if cnt > answer:
+#                 answer = cnt
+#
+#         cnt = 1
+#         for j in range(1, n):
+#             if arr[j][i] == arr[j - 1][i]:
+#                 cnt += 1
+#             else:
+#                 cnt = 1
+#
+#             if cnt > answer:
+#                 answer = cnt
+#
+#     return answer
+#
+#
+# n = int(input())
+# arr = [list(input()) for _ in range(n)]
+# answer = 0
+#
+# for i in range(n):
+#     for j in range(n):
+#         if j + 1 < n:
+#             arr[i][j], arr[i][j + 1] = arr[i][j + 1], arr[i][j]
+#
+#             temp = check(arr)
+#
+#             if temp > answer:
+#                 answer = temp
+#
+#             arr[i][j], arr[i][j + 1] = arr[i][j + 1], arr[i][j]
+#
+#         if i + 1 < n:
+#             arr[i][j], arr[i + 1][j] = arr[i + 1][j], arr[i][j]
+#
+#     temp = check(arr)
+#
+#     if temp > answer:
+#         answer = temp
+#
+#     arr[i][j], arr[i + 1][j] = arr[i + 1][j], arr[i][j]
+#
+# print(answer)
+# n = int(input())
+#
+# array = []
+# for _ in range(n):
+#     colors = list(map(str, input()))
+#     array.append(colors)
+#
+# maxCount = 0
+#
+#
+# def width():
+#     global maxCount
+#
+#     for k in range(n):
+#         countRow = 1
+#         for l in range(n - 1):
+#             if array[k][l] == array[k][l + 1]:
+#                 countRow += 1
+#                 maxCount = max(maxCount, countRow)
+#             else:
+#                 countRow = 1
+#
+#
+# def height():
+#     for k in range(n):
+#         global maxCount
+#
+#         countColumn = 1
+#         for l in range(n - 1):
+#             if array[l][k] == array[l + 1][k]:
+#                 countColumn += 1
+#                 maxCount = max(maxCount, countColumn)
+#             else:
+#                 countColumn = 1
+#
+#
+# for i in range(n):
+#     for j in range(n - 1):
+#         if array[i][j] != array[i][j + 1]:
+#             array[i][j], array[i][j + 1] = array[i][j + 1], array[i][j]
+#             width()
+#             height()
+#             array[i][j + 1], array[i][j] = array[i][j], array[i][j + 1]
+#         if array[j][i] != array[j + 1][i]:
+#             array[j][i], array[j + 1][i] = array[j + 1][i], array[j][i]
+#             width()
+#             height()
+#             array[j + 1][i], array[j][i] = array[j][i], array[j + 1][i]
+#
+# print(maxCount)
+# import turtle as t
+#
+# t.pensize(4)
+# t.speed(10)
+# #t.tracer(0)
+# body_color = "#f8d849"
+# cheek_color = "#d85d2d"
+# t.color("black", body_color)
+# def drawface():
+#     t.penup()
+#     t.goto(-50, -120)
+#     t.pendown()
+#     t.begin_fill()
+#     t.seth(160)
+#     t.circle(-160, 30)
+#     t.right(10)
+#     t.circle(-80, 60)
+#     t.circle(90, 30)
+#     t.circle(-60, 70)
+#     t.circle(-200, 40)
+#     t.circle(-60, 70)
+#     t.circle(90, 30)
+#     t.circle(-80, 60)
+#     t.right(10)
+#     t.circle(-160, 30)
+#     t.goto(-50, -120)
+#     t.end_fill()
+# def drawear(d):
+#     t.color("black", body_color)
+#     t.penup()
+#     t.goto(85*d, 90)
+#     t.pendown()
+#     t.begin_fill()
+#     t.seth(90+60*(-d))
+#     t.circle(240*d, 50)
+#     x,y = t.pos()
+#     t.right(180+60*d)
+#     t.circle(240*d, 50)
+#     t.end_fill()
+#     t.color("black", "black")
+#     t.penup()
+#     t.goto(x,y)
+#     t.pendown()
+#     t.begin_fill()
+#     t.goto(t.xcor()+31*(-d), t.ycor()-83)
+#     t.goto(t.xcor()+30*(-d), t.ycor()+50)
+#     t.goto(x,y)
+#     t.end_fill()
+# def draweye(d):
+#     t.penup()
+#     t.goto(60*d, 30)
+#     t.dot(40, "black")
+#     t.penup()
+#     t.goto(50*d, 30)
+#     t.dot(15, "white")
+# def drawnose():
+#     t.color("black", "black")
+#     t.penup()
+#     t.goto(-5, -10)
+#     t.pendown()
+#     t.begin_fill()
+#     t.seth(270)
+#     t.circle(5, 180)
+#     t.goto(-5, -10)
+#     t.end_fill()
+# def drawmouth():
+#     t.penup()
+#     t.goto(-40, -30)
+#     t.pendown()
+#     t.seth(315)
+#     t.circle(30, 90)
+#     t.right(90)
+#     t.circle(30, 90)
+# def drawcheek(d):
+#     t.penup()
+#     t.goto(90*d, -40)
+#     t.dot(60, cheek_color)
+# drawface()
+# drawear(-1)
+# drawear(1)
+# draweye(-1)
+# draweye(1)
+# drawnose()
+# drawmouth()
+# drawcheek(-1)
+# drawcheek(1)
+# t.hideturtle()
+# t.update()
+# t.mainloop()
+# import sys
+# 
+# sys.setrecursionlimit(10000)
+# 
+# n, m = map(int, sys.stdin.readline().split())
+# tofu = [list(sys.stdin.readline().rstrip()) for _ in range(n)]
+# 
+# cost = dict().fromkeys(['A', 'B', 'C', 'D', 'F'])
+# for i in cost:
+#     cost[i] = dict().fromkeys(['A', 'B', 'C', 'D', 'F'], 0)
+# temp = [[10, 8, 7, 5, 1], [8, 6, 4, 3, 1], [7, 4, 3, 2, 1], [5, 3, 2, 2, 1], [1, 1, 1, 1, 0]]
+# for idx_i, i in enumerate(['A', 'B', 'C', 'D', 'F']):
+#     for idx_j, j in enumerate(['A', 'B', 'C', 'D', 'F']):
+#         cost[i][j] = temp[idx_i][idx_j]
+# 
+# dp = [[-1] * (1 << m) for _ in range(n * m)]
+# 
+# 
+# def go(num, bit):
+#     if num >= n * m:
+#         return 0
+# 
+# 
+#     if dp[num][bit] != -1:
+#         return dp[num][bit]
+#     dp[num][bit] = 0
+# 
+#     d = go(num + 1, bit >> 1)
+# 
+#     dp[num][bit] = max(dp[num][bit], d)
+# 
+#     if bit & 1 == 1:
+# 
+#         a = go(num + 1, bit >> 1)
+# 
+#         dp[num][bit] = max(dp[num][bit], a)
+# 
+# 
+#     else:
+# 
+#         if num + m < n * m and bit & 1 == 0:
+#             b = go(num + 1, bit >> 1 | (1 << (m - 1)))
+# 
+#             dp[num][bit] = max(dp[num][bit], b + cost[one_dim[num]][one_dim[num + m]])
+# 
+#         if num % m != (m - 1) and bit & 2 == 0:
+#             c = go(num + 2, bit >> 2)
+# 
+#             dp[num][bit] = max(dp[num][bit], c + cost[one_dim[num]][one_dim[num + 1]])
+#     return dp[num][bit]
+# 
+# 
+# print(go(0, 0))
